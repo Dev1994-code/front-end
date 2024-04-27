@@ -1,0 +1,9 @@
+export { default as Home } from "./Home";
+export { default as Admin } from "./Admin";
+export { default as About } from "./About";
+export { default as Login } from "./Login";
+export { default as Register } from "./Register";
+export { default as CreatePackage } from "./CreatePackage";
+export { default as DeletePackage } from "./DeletePackage";
+export { default as EditPackage } from "./EditPackage";
+export { default as TourGuider } from "./TourGuider";
