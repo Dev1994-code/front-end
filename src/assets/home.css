@@ -14,6 +14,10 @@ body {
   max-width: 1200px;
   padding: 0 15px;
 }
+.container-fluidd {
+  max-width: 1200px;
+  padding: 0 40px;
+}
 
 .ant-layout {
   background: #fff !important;
@@ -211,7 +215,7 @@ hero
   background: url("assets/images/bg-hero.jpg") no-repeat;
   background-position: 50% 100%;
   background-size: cover;
-  height: 100vh;
+  height: 70vh;
 }
 
 .heroBlock .container-fluid {
