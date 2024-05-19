@@ -2,11 +2,11 @@ import { Layout } from "antd";
 import AppHeader from "../components/Header";
 import "../assets/home.css";
 import "antd/dist/antd";
-import Landing from "./Landing";
 import { Footer } from "antd/es/layout/layout";
 import AppFooter from "../components/Footer";
+import { Outlet } from "react-router-dom";
 
-const { Header, Content } = Layout;
+const { Header } = Layout;
 
 const Home = () => {
   return (
@@ -14,9 +14,7 @@ const Home = () => {
       <Header>
         <AppHeader />
       </Header>
-      <Content className="mt-10">
-        <Landing />
-      </Content>
+      <Outlet />
       <Footer>
         <AppFooter />
       </Footer>
@@ -24,3 +22,9 @@ const Home = () => {
   );
 };
 export default Home;
+
+{
+  /* <Content className="mt-10">
+  <Landing />
+</Content>; */
+}

@@ -1,6 +1,6 @@
-import { Form, Input, Typography, Button, message, Checkbox } from "antd";
+import { Form, Input, Typography, Button, Checkbox } from "antd";
 import axios from "axios";
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 import "../assets/custom.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,14 +9,16 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    username: "",
+    contactInformation: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: "" });
   };
-  const [cookies, setCookies] = useCookies(["access_token"]);
-  const [userIdCookies, setUserIdCookies] = useCookies(["userId_cookies"]);
+  // const [cookies, setCookies] = useCookies(["access_token"]);
+  // const [userIdCookies, setUserIdCookies] = useCookies(["userId_cookies"]);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
@@ -25,23 +27,19 @@ const Login = () => {
   // };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
     try {
       const response = await axios.post(
-        `http://localhost:3002/user/login`,
+        `http://localhost:3002/user/register`,
         formData
       );
       console.log("response", response.data);
-      alert("user Logged In Successfully!");
+      alert("user regester In Successfully!");
       // setFormData({ password: "", email: "" });
-      if (response.status === 200) {
-        setCookies("access_token", response.data.token);
-        setUserIdCookies("userId_cookies", response.data.user._id);
-        // console.log(response.data);
-        navigate("/");
-      }
+      // console.log(response.data);
+      navigate("/login");
     } catch (ex) {
       console.log("ex:", ex);
-
       if (ex.response && ex.response.status === 400) {
         setErrors(ex.response.data);
       }
@@ -55,7 +53,7 @@ const Login = () => {
     <div className="loginBg ">
       <form className="loginForm" onSubmit={handleSubmit}>
         <Typography.Title className="flex justify-center items-center">
-          Login
+          SignUp
         </Typography.Title>
         <Form.Item
           rules={[
@@ -73,7 +71,50 @@ const Login = () => {
             name="email"
             placeholder="Enter your Email"
             className="text-lg"
+            required
             value={formData.email}
+            onChange={handleChange}
+          />
+        </Form.Item>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              type: "text",
+              message: "please enter your username",
+            },
+          ]}
+          label={<span style={labelStyle}>UserName</span>}
+          name={"username"}
+          className="text-lg"
+        >
+          <Input
+            name="username"
+            placeholder="Enter your username"
+            className="text-lg"
+            required
+            value={formData.username}
+            onChange={handleChange}
+          />
+        </Form.Item>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              type: "text",
+              message: "please enter your ContactInformation",
+            },
+          ]}
+          label={<span style={labelStyle}>Contact Information</span>}
+          name={"contactInformation"}
+          className="text-lg"
+        >
+          <Input
+            name="contactInformation"
+            placeholder="Enter your contactInformation"
+            className="text-lg"
+            required
+            value={formData.contactInformation}
             onChange={handleChange}
           />
         </Form.Item>
@@ -92,6 +133,7 @@ const Login = () => {
             name="password"
             placeholder="Enter your password"
             className="text-lg"
+            required
             value={formData.password}
             onChange={handleChange}
           />
