@@ -72,6 +72,11 @@ const AppHeader = () => {
   const [open, setOpen] = useState(false);
   const [cookies, setCookies] = useCookies(["access_token"]);
 
+  const LogOut = () => {
+    setCookies("access_token", "");
+    window.location.reload();
+  };
+
   const showDrawer = () => {
     setOpen(true);
   };
@@ -87,7 +92,6 @@ const AppHeader = () => {
         </div>
         <div className="mobileHidden">
           <Anchor>
-            <Link to="#faq" title="FAQ" className="text-lg" />
             <Dropdown menu={menu} placement="bottomRight">
               <RouterLink className="mt-1 ml-3 text-xl hover:text-lime-400 transition-all duration-300">
                 Destinations <DownOutlined />
@@ -99,7 +103,7 @@ const AppHeader = () => {
                 Events <DownOutlined />
               </RouterLink>
             </Dropdown>
-            <Link to="#contact" title="Contact" className="text-xl" />
+            <Link to="/#footer" title="Contact" className="text-xl" />
           </Anchor>
         </div>
         <div className="mobileVisible">
@@ -107,24 +111,22 @@ const AppHeader = () => {
             <i className="fas fa-bars"></i>
           </Button>
           <Drawer title="TRVL" onClose={onClose} open={open}>
-            <Anchor>
-              <Link to="#faq" title="FAQ" className="text-lg" />
+            <Anchor className="felx">
               <Dropdown menu={menu} placement="bottomRight">
                 <RouterLink className="ant-dropdown-link text-xl hover:text-lime-400 transition-all duration-300 ml-3 mt-1">
-                  About <DownOutlined />
+                  Destinations <DownOutlined />
                 </RouterLink>
               </Dropdown>
-              <Link to="#feature" title="Features" className="text-lg" />
-              <Link to="#works" title="How it works" className="text-lg" />
+              <Link to="/hotels" title="Hotels" className="text-xl" />
               <Dropdown menu={eventsMenu} placement="bottomRight">
                 <RouterLink className="ant-dropdown-link text-xl hover:text-lime-400 transition-all duration-300 ml-3">
                   Events <DownOutlined />
                 </RouterLink>
               </Dropdown>
-              <Link to="#contact" title="Contact" className="text-lg" />
+              <Link to="/#footer" title="Contact" className="text-lg" />
             </Anchor>
             <div className="flex flex-col my-7 gap-4 ">
-              {!cookies.access_token && (
+              {!cookies.access_token ? (
                 <>
                   <RouterLink to="/login">
                     <Button
@@ -143,6 +145,10 @@ const AppHeader = () => {
                     </Button>
                   </RouterLink>
                 </>
+              ) : (
+                <Button type="primary" onClick={LogOut} className="ml-4">
+                  logOut
+                </Button>
               )}
             </div>
           </Drawer>

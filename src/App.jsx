@@ -10,6 +10,7 @@ import { ConfigProvider } from "antd";
 import Package from "./pages/Package";
 import Fiche from "./pages/Fiche";
 import StGabriel from "./pages/StGabriel";
+import Hotels from "./pages/Hotels";
 
 const router = createBrowserRouter([
   {
@@ -44,16 +45,16 @@ const router = createBrowserRouter([
         path: "/stgabriel",
         element: <StGabriel />,
       },
+      {
+        path: "/hotels",
+        element: <Hotels />,
+      },
     ],
   },
 
   {
     path: "/login",
     element: <Login />,
-    action: () => {
-      console.log("hello there");
-      return null;
-    },
   },
   {
     path: "/signup",

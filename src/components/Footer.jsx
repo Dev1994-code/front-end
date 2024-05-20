@@ -1,6 +1,6 @@
 const AppFooter = () => {
   return (
-    <div className="">
+    <div id="footer">
       <div className="grid grid-cols-2 mx-30">
         <div className="footer">
           <div className="logo">

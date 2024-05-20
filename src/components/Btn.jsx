@@ -14,7 +14,9 @@ const Btn = () => {
         {!cookies.access_token ? (
           <>
             <RouterLink to="/login">
-              <Button type="primary">Login</Button>
+              <Button type="primary" className="ml-4">
+                Login
+              </Button>
             </RouterLink>
             <RouterLink to="/signup">
               <Button type="primary" className="ml-4">
