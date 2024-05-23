@@ -11,6 +11,8 @@ import Package from "./pages/Package";
 import Fiche from "./pages/Fiche";
 import StGabriel from "./pages/StGabriel";
 import Hotels from "./pages/Hotels";
+import Booking from "./pages/Booking";
+import AddReview from "./pages/AddReview";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,10 @@ const router = createBrowserRouter([
         path: "/hotels",
         element: <Hotels />,
       },
+      {
+        path: "/book/:id",
+        element: <Booking />,
+      },
     ],
   },
 
@@ -59,6 +65,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "/addReview",
+    element: <AddReview />,
   },
 ]);
 const App = () => {

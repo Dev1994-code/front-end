@@ -1,5 +1,9 @@
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
+import { Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 const Reviews = () => {
   const reviewsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(0);
@@ -54,6 +58,9 @@ const Reviews = () => {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
   ];
+
+  const [cookies, setCookies] = useCookies(["access_token"]);
+  const token = cookies["access_token"];
   const pageCount = Math.ceil(reviews.length / reviewsPerPage);
 
   const handlePageChange = ({ selected }) => {
@@ -117,6 +124,18 @@ const Reviews = () => {
           </div>
         </div>
       </div>
+      {token && (
+        <div className="flex justify-end mb-8">
+          <div className="ml-auto">
+            <Link to="/addReview">
+              <Button className="flex items-center bg-lime-500 hover:bg-lime-600  text-white font-semibold py-2 px-4 rounded mr-9">
+                <PlusOutlined className="mr-2" />
+                Add Review
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

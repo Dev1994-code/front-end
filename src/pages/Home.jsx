@@ -15,7 +15,7 @@ const Home = () => {
         <AppHeader />
       </Header>
       <Outlet />
-      <Footer>
+      <Footer id="footer">
         <AppFooter />
       </Footer>
     </Layout>

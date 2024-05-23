@@ -12,7 +12,6 @@ const menu = (
   <Menu>
     <Menu.Item key="0">
       <RouterLink
-        target="_blank"
         rel="noopener noreferrer"
         to="/hawassaCity"
         className="text-xl  hover:bg-lime-400 transition-all duration-300 rounded"
@@ -22,7 +21,6 @@ const menu = (
     </Menu.Item>
     <Menu.Item key="1">
       <RouterLink
-        target="_blank"
         rel="noopener noreferrer"
         to="/wendogenet"
         className="text-xl hover:bg-lime-400 transition-all duration-300 rounded"
@@ -32,7 +30,6 @@ const menu = (
     </Menu.Item>
     <Menu.Item key="3">
       <RouterLink
-        target="_blank"
         rel="noopener noreferrer"
         to="/yirgalem"
         className="text-xl hover:bg-lime-400 transition-all duration-300 rounded"
@@ -47,7 +44,6 @@ const eventsMenu = (
   <Menu>
     <Menu.Item key="0">
       <RouterLink
-        target="_blank"
         rel="noopener noreferrer"
         to="/fiche"
         className="text-xl hover:bg-lime-400 transition-all duration-300 rounded"
@@ -57,7 +53,6 @@ const eventsMenu = (
     </Menu.Item>
     <Menu.Item key="1">
       <RouterLink
-        target="_blank"
         rel="noopener noreferrer"
         to="/stgabriel"
         className="text-xl hover:bg-lime-400 transition-all duration-300 rounded"
@@ -92,18 +87,29 @@ const AppHeader = () => {
         </div>
         <div className="mobileHidden">
           <Anchor>
-            <Dropdown menu={menu} placement="bottomRight">
+            <Dropdown overlay={menu} placement="bottomRight">
               <RouterLink className="mt-1 ml-3 text-xl hover:text-lime-400 transition-all duration-300">
                 Destinations <DownOutlined />
               </RouterLink>
             </Dropdown>
-            <Link to="/hotels" title="Hotels" className="text-xl" />
-            <Dropdown menu={eventsMenu} placement="bottomRight">
+            <RouterLink
+              to={"/hotels"}
+              className="text-xl hover:text-lime-400 mt-1 ml-2 mr-1"
+            >
+              Hotel
+            </RouterLink>
+            {/* <Link to="/hotels" title="Hotels" className="text-xl" /> */}
+            <Dropdown overlay={eventsMenu} placement="bottomRight">
               <RouterLink className="ant-dropdown-link text-xl hover:text-lime-400 transition-all duration-300 ml-3 mt-1">
                 Events <DownOutlined />
               </RouterLink>
             </Dropdown>
-            <Link to="/#footer" title="Contact" className="text-xl" />
+            <RouterLink
+              to={"/#footer"}
+              className="text-xl hover:text-lime-400 mt-1 ml-2"
+            >
+              Contact
+            </RouterLink>
           </Anchor>
         </div>
         <div className="mobileVisible">
@@ -112,13 +118,13 @@ const AppHeader = () => {
           </Button>
           <Drawer title="TRVL" onClose={onClose} open={open}>
             <Anchor className="felx">
-              <Dropdown menu={menu} placement="bottomRight">
+              <Dropdown overlay={menu} placement="bottomRight">
                 <RouterLink className="ant-dropdown-link text-xl hover:text-lime-400 transition-all duration-300 ml-3 mt-1">
                   Destinations <DownOutlined />
                 </RouterLink>
               </Dropdown>
               <Link to="/hotels" title="Hotels" className="text-xl" />
-              <Dropdown menu={eventsMenu} placement="bottomRight">
+              <Dropdown overlay={eventsMenu} placement="bottomRight">
                 <RouterLink className="ant-dropdown-link text-xl hover:text-lime-400 transition-all duration-300 ml-3">
                   Events <DownOutlined />
                 </RouterLink>

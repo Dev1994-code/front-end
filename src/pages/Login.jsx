@@ -27,7 +27,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3002/user/login`,
+        `http://localhost:3001/user/login`,
         formData
       );
       console.log("response", response.data);
