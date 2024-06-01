@@ -5,7 +5,7 @@ import "../assets/custom.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -30,14 +30,14 @@ const Login = () => {
     console.log(formData);
     try {
       const response = await axios.post(
-        `http://localhost:3002/user/register`,
+        `http://localhost:3001/user/register`,
         formData
       );
       console.log("response", response.data);
       alert("user regester In Successfully!");
       // setFormData({ password: "", email: "" });
       // console.log(response.data);
-      navigate("/login");
+      navigate("/");
     } catch (ex) {
       console.log("ex:", ex);
       if (ex.response && ex.response.status === 400) {
@@ -50,7 +50,7 @@ const Login = () => {
   };
 
   return (
-    <div className="loginBg ">
+    <div className="my-40 flex justify-center items-center">
       <form className="loginForm" onSubmit={handleSubmit}>
         <Typography.Title className="flex justify-center items-center">
           SignUp
@@ -160,4 +160,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default SignUp;

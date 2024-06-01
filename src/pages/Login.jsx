@@ -4,12 +4,14 @@ import { useCookies } from "react-cookie";
 import "../assets/custom.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+//import { useEffect } from "react";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  //const [userId, setUserId] = useState("");
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -23,6 +25,7 @@ const Login = () => {
   // const checkLogin = () => {
   //   message.success("Login Successful!");
   // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -36,7 +39,6 @@ const Login = () => {
       if (response.status === 200) {
         setCookies("access_token", response.data.token);
         setUserIdCookies("userId_cookies", response.data.user._id);
-        // console.log(response.data);
         navigate("/");
       }
     } catch (ex) {
@@ -52,7 +54,7 @@ const Login = () => {
   };
 
   return (
-    <div className="loginBg ">
+    <div className="my-40 flex justify-center items-center">
       <form className="loginForm" onSubmit={handleSubmit}>
         <Typography.Title className="flex justify-center items-center">
           Login

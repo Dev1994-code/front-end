@@ -58,8 +58,8 @@
 }
 .loginForm {
   background-color: rgba(255, 255green, 255, 0.33);
-  box-shadow: 0px 8px 32px 0 rgba(0, 0, 255, 0.33);
-  backdrop-filter: blur(4px);
+  box-shadow: 0px 8px 32px 0 rgba(0, 0, 255, 0.1);
+  backdrop-filter: blur(2px);
   padding: 0px 24px 24px 24px;
   border-radius: 16px;
 }

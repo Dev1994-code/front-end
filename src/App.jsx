@@ -1,4 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Landing from "./pages/Landing";
@@ -13,6 +15,7 @@ import StGabriel from "./pages/StGabriel";
 import Hotels from "./pages/Hotels";
 import Booking from "./pages/Booking";
 import AddReview from "./pages/AddReview";
+import TourGuide from "./pages/TourGuide";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +58,10 @@ const router = createBrowserRouter([
         path: "/book/:id",
         element: <Booking />,
       },
+      {
+        path: "/rate",
+        element: <TourGuide />,
+      },
     ],
   },
 
@@ -81,6 +88,7 @@ const App = () => {
       }}
     >
       <RouterProvider router={router} />
+      <ToastContainer />
     </ConfigProvider>
   );
 };

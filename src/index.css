@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.blurred {
+  filter: blur(2px); /* Adjust the blur intensity as needed */
+}
+
+* {
+  @apply transition-colors duration-200;
+}
+
 /* ============= GLOBAL CSS =============== */
 
 *,

@@ -1,31 +1,65 @@
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddReview = () => {
-  const [name, setName] = useState("");
-  const [rating, setRating] = useState("");
-  const [comment, setComment] = useState("");
-
+  const [formData, setFormData] = useState({
+    name: "",
+    rating: 0,
+    comment: "",
+  });
+  const { name, rating, comment } = formData;
+  const [errors, setErrors] = useState({});
   const handleNameChange = (e) => {
-    setName(e.target.value);
+    setFormData({ ...formData, name: e.target.value });
+    setErrors({ ...errors, name: "" });
   };
-
   const handleRatingChange = (e) => {
-    setRating(e.target.value);
+    setFormData({ ...formData, rating: e.target.value });
+    setErrors({ ...errors, rating: "" });
   };
-
   const handleReviewChange = (e) => {
-    setComment(e.target.value);
+    setFormData({ ...formData, comment: e.target.value });
+    setErrors({ ...errors, comment: "" });
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Here you can perform any action with the form data, such as submitting to a server or updating state.
+    let validationErrors = {};
+    if (name.trim() === "") {
+      validationErrors.name = "Name is required";
+      toast.error("Name is required");
+    }
+    if (rating < 1 || rating > 5) {
+      validationErrors.rating = "Rating must be between 1 and 5";
+      toast.error("Rating must be between 1 and 5");
+    }
+    if (comment.trim() === "") {
+      validationErrors.comment = "Comment is required";
+      toast.error("Comment is required");
+    } else if (comment.trim().split(/\s+/).length > 100) {
+      validationErrors.comment = "Comment should be less than 100 words";
+    }
 
-    // Reset the form
-    setName("");
-    setRating("");
-    setComment("");
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return; // Stop form submission if there are validation errors
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/service/review`,
+        formData
+      );
+      console.log(response.data);
+      toast.success("Review Added Successfully");
+    } catch (error) {
+      console.log("error", error);
+      toast.error("An error occurred while submitting the review.");
+    }
+    //console.log(formData);
+    setFormData({ name: "", rating: 0, comment: "" });
   };
 
   return (

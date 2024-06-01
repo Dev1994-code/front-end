@@ -2,6 +2,7 @@ import { Card, List, Input } from "antd";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { FaStar } from "react-icons/fa";
 
 const Destinations = () => {
   const [data, setData] = useState([]);
@@ -59,6 +60,13 @@ const Destinations = () => {
                   }
                 >
                   <Card.Meta title={item.name} description={item.description} />
+                  <div className="flex items-center gap-1">
+                    <label className="text-lg font-semibold">Rating:</label>
+                    {[...Array(item.averageRating)].map((_, index) => (
+                      <FaStar key={index} size={20} color="orange" />
+                    ))}
+                    <span>({item.averageRating})</span>
+                  </div>
                 </Card>
               </Link>
             </List.Item>
