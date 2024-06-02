@@ -49,7 +49,7 @@ const AddReview = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3001/service/review`,
+        `${import.meta.env.VITE_API_PATH}/service/review`,
         formData
       );
       console.log(response.data);

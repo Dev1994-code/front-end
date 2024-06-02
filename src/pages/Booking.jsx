@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
@@ -27,7 +27,7 @@ const Booking = () => {
     const fetchTourGuide = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3001/package/detail/${id}`
+          `${import.meta.env.VITE_API_PATH}/package/detail/${id}`
         );
         setSpecificPackage(res.data);
       } catch (error) {
@@ -72,7 +72,7 @@ const Booking = () => {
     console.log("formData:", formData);
     try {
       const res = await axios.post(
-        `http://localhost:3001/book/create/${userId}`,
+        `${import.meta.env.VITE_API_PATH}/book/create/${userId}`,
         formData
       );
 

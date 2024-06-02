@@ -96,7 +96,7 @@ const AppHeader = () => {
               to={"/hotels"}
               className="text-xl hover:text-lime-400 mt-1 ml-2 mr-1"
             >
-              Hotel
+              Hotels
             </RouterLink>
             {/* <Link to="/hotels" title="Hotels" className="text-xl" /> */}
             <Dropdown overlay={eventsMenu} placement="bottomRight">

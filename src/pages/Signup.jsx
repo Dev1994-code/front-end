@@ -1,6 +1,6 @@
 import { Form, Input, Typography, Button, Checkbox } from "antd";
 import axios from "axios";
-// import { useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 import "../assets/custom.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -17,8 +17,8 @@ const SignUp = () => {
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: "" });
   };
-  // const [cookies, setCookies] = useCookies(["access_token"]);
-  // const [userIdCookies, setUserIdCookies] = useCookies(["userId_cookies"]);
+  const [cookies, setCookies] = useCookies(["access_token"]);
+  const [userIdCookies, setUserIdCookies] = useCookies(["userId_cookies"]);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
@@ -30,14 +30,18 @@ const SignUp = () => {
     console.log(formData);
     try {
       const response = await axios.post(
-        `http://localhost:3001/user/register`,
+        `${import.meta.env.VITE_API_PATH}/user/register`,
         formData
       );
       console.log("response", response.data);
       alert("user regester In Successfully!");
       // setFormData({ password: "", email: "" });
       // console.log(response.data);
-      navigate("/");
+      if (response.status === 201) {
+        setCookies("access_token", response.data.token);
+        setUserIdCookies("userId_cookies", response.data.user._id);
+        navigate("/");
+      }
     } catch (ex) {
       console.log("ex:", ex);
       if (ex.response && ex.response.status === 400) {

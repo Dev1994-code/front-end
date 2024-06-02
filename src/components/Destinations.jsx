@@ -9,7 +9,9 @@ const Destinations = () => {
 
   useEffect(() => {
     const fetchPackages = async () => {
-      const response = await axios.get(`http://localhost:3001/package/detail`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_PATH}/package/detail`
+      );
       const { data } = response;
       setData(data);
       console.log("response:", response.data);
@@ -59,7 +61,13 @@ const Destinations = () => {
                     />
                   }
                 >
-                  <Card.Meta title={item.name} description={item.description} />
+                  <Card.Meta
+                    title={item.name}
+                    description={item.description
+                      .split(" ")
+                      .slice(0, 30)
+                      .join(" ")}
+                  />
                   <div className="flex items-center gap-1">
                     <label className="text-lg font-semibold">Rating:</label>
                     {[...Array(item.averageRating)].map((_, index) => (

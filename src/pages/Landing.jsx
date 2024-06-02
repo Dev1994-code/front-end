@@ -15,15 +15,23 @@ const Landing = () => {
       <div className="">
         <div className="lg:grid grid-cols-5 gap-8">
           <div className="col-span-2 mt-40 ml-20">
-            <h2 className="text-4xl font-bold mb-4 text-purple-700">
+            <h2 className="text-4xl font-bold mb-4 text-blue-700">
               Travel with us!
-            </h2>{" "}
-            <p className="text-2xl text-gray-700">
-              {" "}
-              Let us take you on an{" "}
-              <span className="text-yellow-600">extraordinary journey</span>,
-              where vibrant culture, awe-inspiring landscapes, and rich history
-              converge to create an unforgettable destination.
+            </h2>
+            <p className="text-xl text-gray-700 leading-loose p-4 rounded-lg font-serif">
+              Begin an{" "}
+              <span className="text-purple-600 font-bold italic">
+                extraordinary journey
+              </span>{" "}
+              through the captivating Sidama region with the Sidama Tour Guide
+              Website. Immerse yourself in the{" "}
+              <span className="text-green-600 font-semibold">
+                vibrant culture
+              </span>
+              , awe-inspiring landscapes, and rich history that define this
+              remarkable destination. We are dedicated to creating a truly{" "}
+              <span className="text-red-600 font-bold">unforgettable</span>{" "}
+              travel experience.
             </p>
           </div>
           <div className="col-span-3 mt-14 ml-6">

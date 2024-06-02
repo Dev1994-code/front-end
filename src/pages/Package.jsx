@@ -29,7 +29,7 @@ const Package = () => {
     const fetchPackages = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/package/detail/${id}`
+          `${import.meta.env.VITE_API_PATH}/package/detail/${id}`
         );
         console.log("SpecificPackage:", response.data);
         setSpecificPackage(response.data);
@@ -56,7 +56,7 @@ const Package = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3001/blog/create",
+        `${import.meta.env.VITE_API_PATH}/blog/create`,
         formData
       );
       if (res.status === 200) {
@@ -88,10 +88,13 @@ const Package = () => {
               <div className="flex flex-col md:flex-row md:justify-between mx-2 gap-20 md:mx-0">
                 <div className="card bg-white border-t-4 border-green-500 rounded-lg overflow-hidden shadow-lg flex-1 md:mr-4">
                   <div className="p-4">
-                    <h1 className="text-3xl font-bold mb-4">Activities</h1>
+                    <h1 className="text-3xl font-bold mb-4">Sights</h1>
                     <ul className="list-disc list-inside">
                       {specificPackage.activities?.map((activity, index) => (
-                        <li key={index} className="text-gray-700">
+                        <li
+                          key={index}
+                          className="text-gray-700 py-2 px-4 border-b border-gray-300 text-lg"
+                        >
                           {activity}
                         </li>
                       ))}
@@ -100,41 +103,28 @@ const Package = () => {
                 </div>
               </div>
             </div>
-            <div className="mx-12  py-8  md:px-0">
-              <div className="flex flex-col md:flex-row md:justify-between mx-2 gap-20 md:mx-0">
-                <div className="card bg-white border-t-4 border-green-500 rounded-lg overflow-hidden shadow-lg flex-1 md:mr-4">
-                  <div className="p-4">
-                    <h1 className="text-3xl font-bold mb-4">
-                      {specificPackage.priceInfo}
-                    </h1>
-                    <p className="text-gray-700 mb-8 text-xl">
-                      {specificPackage.priceDescription}
-                    </p>
-                  </div>
-                </div>
-                <div className="w-full md:w-1/3 mb-4 md:mb-0"></div>
+            <div className="w-full md:w-1/2 mb-4 md:mb-0">
+              <div className="w-full h-96 object-cover w-full h-full rounded-lg">
+                <img
+                  src={specificPackage.image.url}
+                  alt="specificPackage.image.url"
+                />
               </div>
             </div>
             {specificPackage.itinerary?.map((item, index) => (
               <div key={index} className="mb">
                 <div className="mx-12  py-8  md:px-0">
-                  <div className="flex flex-col md:flex-row md:justify-between mx-2 gap-20 md:mx-0">
+                  <div className="flex flex-col md:flex-row md:justify-between mx-2 gap-20 md:mx-0 md:w-1/2">
                     <div className="card bg-white border-t-4 border-green-500 rounded-lg overflow-hidden shadow-lg flex-1 md:mr-4">
                       <div className="p-4">
                         <div>
                           <p className="text-gray-700">
                             <h3 className="font-semibold">{item.day}: </h3>
-                            {item.info}
+                            <span className="inline-block text-gray-800 p-2 rounded-lg  border-gray-300">
+                              {item.info}
+                            </span>
                           </p>
                         </div>
-                      </div>
-                    </div>
-                    <div className="w-full md:w-1/3 mb-4 md:mb-0">
-                      <div className="w-full h-96 object-cover w-full h-full rounded-lg">
-                        <img
-                          src={specificPackage.image.url}
-                          alt="specificPackage.image.url"
-                        />
                       </div>
                     </div>
                   </div>
