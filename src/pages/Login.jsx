@@ -47,6 +47,19 @@ const Login = () => {
       if (ex.response && ex.response.status === 400) {
         setErrors(ex.response.data);
       }
+      if (ex.response.status === 401) {
+        setErrors({ ...errors, password: "Invalid Password or email " });
+      } else if (ex.response.status === 403) {
+        setErrors({
+          ...errors,
+          password:
+            "Your account has been banned. Please contact support for further assistance.",
+        });
+      } else if (ex.response.status === 404) {
+        setErrors({ ...errors, email: "Admin Not Found" });
+      } else {
+        console.log(ex);
+      }
     }
   };
   const labelStyle = {
@@ -78,6 +91,7 @@ const Login = () => {
             value={formData.email}
             onChange={handleChange}
           />
+          {errors.email && <div className="text-red-500">{errors.email}</div>}
         </Form.Item>
         <Form.Item
           rules={[
@@ -97,6 +111,9 @@ const Login = () => {
             value={formData.password}
             onChange={handleChange}
           />
+          {errors.password && (
+            <div className="text-red-500">{errors.password}</div>
+          )}
         </Form.Item>
         <Form.Item
           name="remember"

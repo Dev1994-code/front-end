@@ -8,19 +8,20 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-import AddReview from "../pages/AddReview";
+//import AddReview from "../pages/AddReview";
 const Reviews = () => {
   const reviewsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(0);
   // the array of reviews
 
   const [reviews, setReviews] = useState([]);
-  const [makeReview, setMakeReview] = useState([]);
+
   const [showModal, setShowModal] = useState(false);
+  const [cookies, setCookies] = useCookies(["access_token"]);
   const [userIdCookies, setUserIdCookies] = useCookies(["userId_cookies"]);
   const userId = userIdCookies["userId_cookies"];
 
-  console.log("userId:", userId);
+  // console.log("userId:", userId);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -33,11 +34,10 @@ const Reviews = () => {
       }
     };
     fetchReviews();
-  }, []);
+  }, [reviews]);
 
-  const [cookies, setCookies] = useCookies(["access_token"]);
   const token = cookies["access_token"];
-  console.log("token:", token);
+  // console.log("token:", token);
   const pageCount = Math.ceil(reviews.length / reviewsPerPage);
 
   const handlePageChange = ({ selected }) => {
@@ -47,66 +47,59 @@ const Reviews = () => {
   const currentReviews = reviews.slice(offset, offset + reviewsPerPage);
 
   const [formData, setFormData] = useState({
-    name: "",
-    rating: 0,
-    comment: "",
+    userId: userId,
+    text: "",
   });
-  const { name, rating, comment } = formData;
+  const { text } = formData;
   const [errors, setErrors] = useState({});
-  const handleNameChange = (e) => {
-    setFormData({ ...formData, name: e.target.value });
-    setErrors({ ...errors, name: "" });
-  };
-  const handleRatingChange = (e) => {
-    setFormData({ ...formData, rating: e.target.value });
-    setErrors({ ...errors, rating: "" });
-  };
+
   const handleReviewChange = (e) => {
-    setFormData({ ...formData, comment: e.target.value });
-    setErrors({ ...errors, comment: "" });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, text: "" });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let validationErrors = {};
-    if (name.trim() === "") {
-      validationErrors.name = "Name is required";
-      toast.error("Name is required");
-    }
-    if (rating < 1 || rating > 5) {
-      validationErrors.rating = "Rating must be between 1 and 5";
-      toast.error("Rating must be between 1 and 5");
-    }
-    if (comment.trim() === "") {
-      validationErrors.comment = "Comment is required";
-      toast.error("Comment is required");
-    } else if (comment.trim().split(/\s+/).length > 100) {
-      validationErrors.comment = "Comment should be less than 100 words";
-    }
+    // let validationErrors = {};
+    // if (name.trim() === "") {
+    //   validationErrors.name = "Name is required";
+    //   toast.error("Name is required");
+    // }
+    // if (rating < 1 || rating > 5) {
+    //   validationErrors.rating = "Rating must be between 1 and 5";
+    //   toast.error("Rating must be between 1 and 5");
+    // }
+    // if (text.trim() === "") {
+    //   validationErrors.comment = "Comment is required";
+    //   toast.error("Comment is required");
+    // } else if (comment.trim().split(/\s+/).length > 100) {
+    //   validationErrors.comment = "Comment should be less than 100 words";
+    // }
 
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return; // Stop form submission if there are validation errors
-    }
+    // if (Object.keys(validationErrors).length > 0) {
+    //   setErrors(validationErrors);
+    //   return; // Stop form submission if there are validation errors
+    // }
 
     try {
+      console.log(formData);
       const res = await axios.post(
-        `${import.meta.env.VITE_API_PATH}/service/review`,
+        `${import.meta.env.VITE_API_PATH}/review/create`,
         formData
       );
       // console.log(response.data);
-      if (res.status === 201) {
+      if (res.status === 200) {
         toast.success("Review Added Successfully");
-        setMakeReview((prev) => [...prev, res.data]);
-        setFormData({ name: "", rating: 0, comment: "" });
+        setFormData({ text: "" });
         setShowModal(false);
+        setReviews((prev) => [...prev, res.data]);
       }
     } catch (error) {
       console.log("error", error);
       toast.error("An error occurred while submitting the review.");
     }
     //console.log(formData);
-    setFormData({ name: "", rating: 0, comment: "" });
   };
 
   return (
@@ -124,7 +117,7 @@ const Reviews = () => {
               >
                 <div className="flex items-center gap-5">
                   <div className="w-12 h-12 bg-lime-300 rounded-full flex items-center justify-center text-gray-700 font-semibold text-xl">
-                    {review.user.name.charAt(0)}
+                    {review.user.name && review.user.name.charAt(0)}
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 capitalize">
@@ -187,45 +180,10 @@ const Reviews = () => {
       {showModal && (
         <div
           className="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6 mt-4 fixed inset-0 z-50"
-          style={{ height: "fit-content" }}
+          //style={{ height: "fit-content" }}
         >
           <h2 className="text-lg font-semibold mb-4">Add a Review</h2>
           <form onSubmit={handleSubmit}>
-            <div className="mb-2">
-              <label
-                htmlFor="name"
-                className="block text-gray-700 font-medium mb-2"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={handleNameChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                required
-              />
-            </div>
-            <div className="mb-2">
-              <label
-                htmlFor="rating"
-                className="block text-gray-700 font-medium mb-2"
-              >
-                Rating
-              </label>
-              <input
-                type="number"
-                id="rating"
-                step="0.1"
-                value={rating}
-                onChange={handleRatingChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                required
-                min="1"
-                max="5"
-              />
-            </div>
             <div className="mb-2">
               <label
                 htmlFor="comment"
@@ -234,8 +192,8 @@ const Reviews = () => {
                 Comment
               </label>
               <textarea
-                id="comment"
-                value={comment}
+                name="text"
+                value={text}
                 onChange={handleReviewChange}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                 required

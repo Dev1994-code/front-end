@@ -2,7 +2,7 @@ import { Card, List, Input } from "antd";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 const Destinations = () => {
   const [data, setData] = useState([]);
@@ -14,7 +14,7 @@ const Destinations = () => {
       );
       const { data } = response;
       setData(data);
-      console.log("response:", response.data);
+      // console.log("response:", response.data);
     };
     fetchPackages();
   }, []);
@@ -25,6 +25,24 @@ const Destinations = () => {
   );
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
+  };
+
+  const renderStars = (averageRating) => {
+    const stars = [];
+    const fullStars = Math.floor(averageRating);
+    const halfStars = averageRating % 1 >= 0.5 ? 1 : 0;
+    const emptyStars = 5 - fullStars - halfStars;
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<FaStar key={`full-${i}`} size={20} color="orange" />);
+    }
+    if (halfStars) {
+      stars.push(<FaStarHalfAlt key="half" size={20} color="orange" />);
+    }
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<FaRegStar key={`empty-${i}`} size={20} color="orange" />);
+    }
+    return stars;
   };
 
   return (
@@ -70,9 +88,7 @@ const Destinations = () => {
                   />
                   <div className="flex items-center gap-1">
                     <label className="text-lg font-semibold">Rating:</label>
-                    {[...Array(item.averageRating)].map((_, index) => (
-                      <FaStar key={index} size={20} color="orange" />
-                    ))}
+                    {renderStars(item.averageRating)}
                     <span>({item.averageRating})</span>
                   </div>
                 </Card>

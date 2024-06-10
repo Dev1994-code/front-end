@@ -213,7 +213,7 @@ hero
 ---- 
 */
 .heroBlock {
-  background: url("assets/images/bg-hero.jpg") no-repeat;
+  /* background: url("assets/images/bg-hero.jpg") no-repeat; */
   background-position: 50% 100%;
   background-size: cover;
   height: 70vh;
@@ -296,7 +296,7 @@ how it works
 ------------
 */
 .worksBlock {
-  background: url("assets/images/bg-works.jpg") no-repeat;
+  /* background: url("assets/images/bg-works.jpg") no-repeat; */
   background-position: 50% 0;
   background-size: cover;
   background-attachment: fixed;

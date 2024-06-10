@@ -1,17 +1,49 @@
 import { Form, Input, Typography, Button, Checkbox } from "antd";
 import axios from "axios";
+import Joi from "joi";
 import { useCookies } from "react-cookie";
 import "../assets/custom.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+const schema = Joi.object({
+  name: Joi.string().required(),
+  username: Joi.string().required(),
+  password: Joi.string()
+    .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$"))
+    .required()
+    .messages({
+      "string.pattern.base":
+        "Password must contain at least one lowercase letter, one uppercase letter, one digit, and be at least 8 characters long",
+    }),
+
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "string.email": "Email must be a valid email",
+      "string.empty": "Email is required",
+    }),
+
+  contactInformation: Joi.string()
+    .pattern(new RegExp("^[0-9]{10,15}$"))
+    .required()
+    .messages({
+      "string.pattern.base":
+        "Contact Information must be a valid phone number with 10 to 15 digits",
+      "string.empty": "Contact Information is required",
+    }),
+}).options({ abortEarly: false });
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     username: "",
+    name: "",
     contactInformation: "",
   });
+  const [errors, setErrors] = useState({});
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -20,7 +52,6 @@ const SignUp = () => {
   const [cookies, setCookies] = useCookies(["access_token"]);
   const [userIdCookies, setUserIdCookies] = useCookies(["userId_cookies"]);
   const navigate = useNavigate();
-  const [errors, setErrors] = useState({});
 
   // const checkLogin = () => {
   //   message.success("Login Successful!");
@@ -29,6 +60,7 @@ const SignUp = () => {
     e.preventDefault();
     console.log(formData);
     try {
+      await schema.validateAsync(formData, { abortEarly: false });
       const response = await axios.post(
         `${import.meta.env.VITE_API_PATH}/user/register`,
         formData
@@ -46,6 +78,13 @@ const SignUp = () => {
       console.log("ex:", ex);
       if (ex.response && ex.response.status === 400) {
         setErrors(ex.response.data);
+      } else if (ex?.details) {
+        // Extract the validation errors from the Joi validation error
+        const validationErrors = {};
+        ex.details.forEach((error) => {
+          validationErrors[error.context.key] = error.message;
+        });
+        setErrors(validationErrors);
       }
     }
   };
@@ -79,6 +118,7 @@ const SignUp = () => {
             value={formData.email}
             onChange={handleChange}
           />
+          {errors.email && <div className="text-red-500">{errors.email}</div>}
         </Form.Item>
         <Form.Item
           rules={[
@@ -100,6 +140,31 @@ const SignUp = () => {
             value={formData.username}
             onChange={handleChange}
           />
+          {errors.username && (
+            <div className="text-red-500">{errors.username}</div>
+          )}
+        </Form.Item>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              type: "text",
+              message: "please enter your name",
+            },
+          ]}
+          label={<span style={labelStyle}>Name</span>}
+          name={"name"}
+          className="text-lg"
+        >
+          <Input
+            name="name"
+            placeholder="Enter your name"
+            className="text-lg"
+            required
+            value={formData.name}
+            onChange={handleChange}
+          />
+          {errors.name && <div className="text-red-500">{errors.name}</div>}
         </Form.Item>
         <Form.Item
           rules={[
@@ -121,6 +186,9 @@ const SignUp = () => {
             value={formData.contactInformation}
             onChange={handleChange}
           />
+          {errors.contactInformation && (
+            <div className="text-red-500">{errors.contactInformation}</div>
+          )}
         </Form.Item>
         <Form.Item
           rules={[
@@ -141,6 +209,9 @@ const SignUp = () => {
             value={formData.password}
             onChange={handleChange}
           />
+          {errors.password && (
+            <div className="text-red-500">{errors.password}</div>
+          )}
         </Form.Item>
         <Form.Item
           name="remember"

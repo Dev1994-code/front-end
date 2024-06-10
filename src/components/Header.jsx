@@ -3,7 +3,7 @@ import { Anchor, Drawer, Button } from "antd";
 import Btn from "./Btn";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Menu } from "antd";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 const { Link } = Anchor;

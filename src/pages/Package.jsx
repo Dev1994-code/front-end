@@ -70,6 +70,30 @@ const Package = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const response = await axios.get(
+        `http://localhost:3001/blog/detail/${id}`
+      );
+      // console.log("reviews:", response.data);
+      setBlogs(response.data);
+    };
+
+    fetchBlogs();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const response = await axios.get(
+        `http://localhost:3001/blog/detail/${id}`
+      );
+      // console.log("reviews:", response.data);
+      setBlogs(response.data);
+    };
+
+    fetchBlogs();
+  }, [id]);
+
   return (
     <div>
       <div className={`${showModal ? "blurred" : ""}`}>
@@ -103,8 +127,8 @@ const Package = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full md:w-1/2 mb-4 md:mb-0">
-              <div className="w-full h-96 object-cover w-full h-full rounded-lg">
+            <div className="">
+              <div className="">
                 <img
                   src={specificPackage.image.url}
                   alt="specificPackage.image.url"
@@ -112,15 +136,15 @@ const Package = () => {
               </div>
             </div>
             {specificPackage.itinerary?.map((item, index) => (
-              <div key={index} className="mb">
+              <div key={index} className="">
                 <div className="mx-12  py-8  md:px-0">
-                  <div className="flex flex-col md:flex-row md:justify-between mx-2 gap-20 md:mx-0 md:w-1/2">
-                    <div className="card bg-white border-t-4 border-green-500 rounded-lg overflow-hidden shadow-lg flex-1 md:mr-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="card bg-white border-t-4 border-green-500 rounded-lg overflow-hidden shadow-lg md:mr-4 mb-4">
                       <div className="p-4">
                         <div>
                           <p className="text-gray-700">
                             <h3 className="font-semibold">{item.day}: </h3>
-                            <span className="inline-block text-gray-800 p-2 rounded-lg  border-gray-300">
+                            <span className="inline-block text-gray-800 p-2 rounded-lg border-gray-300">
                               {item.info}
                             </span>
                           </p>
